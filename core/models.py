@@ -4,18 +4,18 @@ from user.models import Doctor, Patient
 
 
 class WeekDay(models.TextChoices):
-    MONDAY = 'MON', 'Monday'
-    TUESDAY = 'TUE', 'Tuesday'
-    WEDNESDAY = 'WED', 'Wednesday'
-    THURSDAY = 'THU', 'Thursday'
-    FRIDAY = 'FRI', 'Friday'
-    SATURDAY = 'SAT', 'Saturday'
-    SUNDAY = 'SUN', 'Sunday'
+    MONDAY = ('MON', 'Monday')
+    TUESDAY = ('TUE', 'Tuesday')
+    WEDNESDAY = ('WED', 'Wednesday')
+    THURSDAY = ('THU', 'Thursday')
+    FRIDAY = ('FRI', 'Friday')
+    SATURDAY = ('SAT', 'Saturday')
+    SUNDAY = ('SUN', 'Sunday')
 
 
 class CurrencyType(models.TextChoices):
     USD = 'USD', 'US Dollars'
-    UZB = 'UZB', 'Uzbek Soums',
+    UZB = 'UZB', 'Uzbek Soums'
     EUR = 'EUR', 'Euro'
 
 
@@ -40,7 +40,7 @@ class Appointment(models.Model):
 
 class Schedule(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    day = models.CharField(max_length=3, choices=WeekDay)
+    day = models.CharField(max_length=3, choices=WeekDay.choices)
     from_time = models.TimeField()
     to_time = models.TimeField()
     time_per_patient = models.PositiveSmallIntegerField()
@@ -59,7 +59,8 @@ class Prescription(models.Model):
     tests = models.ManyToManyField('MedicalTest', related_name='tests')
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-    medical_record = models.ForeignKey('MedicalRecords', on_delete=models.DO_NOTHING, related_name='medical_record')
+    medical_record = models.ForeignKey('MedicalRecord', on_delete=models.DO_NOTHING, related_name='medical_record')
+    comments = models.TextField()
 
     class Meta:
         db_table = 'prescription'
@@ -68,7 +69,7 @@ class Prescription(models.Model):
         return 'Prescription for %s' % self.patient.name
 
 
-class MedicalRecords(models.Model):
+class MedicalRecord(models.Model):
     patient = models.OneToOneField(Patient, on_delete=models.DO_NOTHING)
     weight = models.FloatField()
     height = models.FloatField()
@@ -80,19 +81,11 @@ class MedicalRecords(models.Model):
         return 'Medical record of %s' % self.patient.name
 
 
-class PrescriptionComment(models.Model):
-    prescription = models.OneToOneField(Prescription, on_delete=models.DO_NOTHING)
-    comment = models.TextField()
-
-    class Meta:
-        db_table = 'prescription_comment'
-
-
 class Payment(models.Model):
-    payment_type = models.CharField(max_length=4, choices=PaymentType, default=PaymentType.CASH.value)
+    payment_type = models.CharField(max_length=4, choices=PaymentType.choices, default=PaymentType.CASH.value)
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)
     amount = models.PositiveIntegerField()
-    currency_type = models.CharField(max_length=3, choices=CurrencyType, default=CurrencyType.USD.value)
+    currency_type = models.CharField(max_length=3, choices=CurrencyType.choices, default=CurrencyType.USD.value)
     status = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

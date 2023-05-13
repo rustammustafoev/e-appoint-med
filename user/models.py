@@ -20,7 +20,7 @@ class Doctor(models.Model):
     year_of_experience = models.PositiveIntegerField()
     phone = models.CharField(max_length=50)
     department = models.ForeignKey('Department', on_delete=models.DO_NOTHING)
-    gender = models.CharField(max_length=1, choices=Gender)
+    gender = models.CharField(max_length=1, choices=Gender.choices)
 
     class Meta:
         db_table = 'doctor'
@@ -33,7 +33,7 @@ class Nurse(models.Model):
     name = models.CharField(max_length=100)
     year_of_experience = models.PositiveIntegerField()
     phone = models.CharField(max_length=50)
-    gender = models.CharField(max_length=1, choices=Gender)
+    gender = models.CharField(max_length=1, choices=Gender.choices)
     email = models.CharField(max_length=100)
 
     class Meta:
@@ -47,7 +47,7 @@ class Patient(models.Model):
     name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
     phone = models.CharField(max_length=50)
-    gender = models.CharField(max_length=1, choices=Gender)
+    gender = models.CharField(max_length=1, choices=Gender.choices)
     email = models.CharField(max_length=100)
     passport_id = models.CharField(max_length=7, help_text='Passport ID is consist of 7 characters')
     address = models.CharField(max_length=100)

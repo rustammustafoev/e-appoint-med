@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     
     # Project apps
     'core',
+    'user',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -211,4 +213,21 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'user': '1200/minute'
     }
+}
+
+# Swagger Settings
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Type in the *\'Value\'* input box below: **\'Bearer &lt;JWT&gt;\'**, where JWT is the JSON web token you get back when logging in.'
+        }
+    },
+    'DOC_EXPANSION': False,
+    'DEFAULT_MODEL_DEPTH': -1
 }
