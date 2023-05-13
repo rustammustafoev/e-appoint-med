@@ -29,17 +29,27 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
+    scheduled_at = models.TimeField()
 
     class Meta:
         db_table = 'appointment'
+
+    def __str__(self):
+        return 'Doctor %s -> %s' % (self.doctor.user.get_full_name(), self.patient.name)
 
 
 class Schedule(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     day = models.CharField(max_length=3, choices=WeekDay)
+    from_time = models.TimeField()
+    to_time = models.TimeField()
+    time_per_patient = models.PositiveSmallIntegerField()
 
     class Meta:
         db_table = 'schedule'
+
+    def __str__(self):
+        return "%s's schedule on %s" % (self.doctor.user.get_full_name(), self.day)
 
 
 class Prescription(models.Model):
@@ -49,9 +59,25 @@ class Prescription(models.Model):
     tests = models.ManyToManyField('MedicalTest', related_name='tests')
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
+    medical_record = models.ForeignKey('MedicalRecords', on_delete=models.DO_NOTHING, related_name='medical_record')
 
     class Meta:
         db_table = 'prescription'
+
+    def __str__(self):
+        return 'Prescription for %s' % self.patient.name
+
+
+class MedicalRecords(models.Model):
+    patient = models.OneToOneField(Patient, on_delete=models.DO_NOTHING)
+    weight = models.FloatField()
+    height = models.FloatField()
+    bmi = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Medical record of %s' % self.patient.name
 
 
 class PrescriptionComment(models.Model):
@@ -82,6 +108,9 @@ class MedicalTest(models.Model):
     class Meta:
         db_table = 'medical_test'
 
+    def __str__(self):
+        return self.title
+
 
 class Notification(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
@@ -92,6 +121,9 @@ class Notification(models.Model):
     class Meta:
         db_table = 'notification'
 
+    def __str__(self):
+        return 'Notification to %s' % self.patient.name
+
 
 class Medicine(models.Model):
     name = models.CharField(max_length=100)
@@ -100,6 +132,9 @@ class Medicine(models.Model):
     class Meta:
         db_table = 'medicine'
 
+    def __str__(self):
+        return self.name
+
 
 class MedicineGroup(models.Model):
     title = models.CharField(max_length=100)
@@ -107,9 +142,13 @@ class MedicineGroup(models.Model):
     class Meta:
         db_table = 'medicine_group'
 
+    def __str__(self):
+        return self.title
+
 
 class HospitalInventory(models.Model):
-    medicine = models.OneToOneField(Medicine, on_delete=models.DO_NOTHING, related_name='medicine')
+    title = models.CharField(max_length=100)
+    medicine = models.ForeignKey(Medicine, on_delete=models.DO_NOTHING, related_name='medicine')
     supplier = models.ForeignKey('Pharmacy', on_delete=models.DO_NOTHING, related_name='medicine_supplier')
     unit_price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
@@ -117,9 +156,15 @@ class HospitalInventory(models.Model):
     class Meta:
         db_table = 'hospital_inventory'
 
+    def __str__(self):
+        return self.title
+
 
 class Pharmacy(models.Model):
     name = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'pharmacy'
+
+    def __str__(self):
+        return self.name
