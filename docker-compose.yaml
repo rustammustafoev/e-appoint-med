@@ -6,20 +6,11 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     restart: always
-    environment:
-      DB_NAME: 'emed'
-      DB_USER: 'prisma'
-      DB_PASSWORD: 'prisma'
-      DB_HOST: 'localhost'
-      DB_PORT: '3306'
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
-    environment:
-      DEBUG: 'True'
-      SECRET_KEY: 'PUT_YOUR_KEY'
     ports:
       - '8000:8000'
     depends_on:

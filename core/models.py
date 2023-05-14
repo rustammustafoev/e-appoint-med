@@ -25,11 +25,11 @@ class PaymentType(models.TextChoices):
 
 
 class Appointment(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
+    patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-    scheduled_at = models.TimeField()
+    scheduled_at = models.ForeignKey('Schedule', on_delete=models.DO_NOTHING)
 
     class Meta:
         db_table = 'appointment'
@@ -81,7 +81,7 @@ class MedicalRecord(models.Model):
         return 'Medical record of %s' % self.patient.name
 
 
-class Payment(models.Model):
+class PaymentHistory(models.Model):
     payment_type = models.CharField(max_length=4, choices=PaymentType.choices, default=PaymentType.CASH.value)
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)
     amount = models.PositiveIntegerField()
@@ -91,7 +91,7 @@ class Payment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'payment'
+        db_table = 'payment_history'
 
 
 class MedicalTest(models.Model):
@@ -141,10 +141,7 @@ class MedicineGroup(models.Model):
 
 class HospitalInventory(models.Model):
     title = models.CharField(max_length=100)
-    medicine = models.ForeignKey(Medicine, on_delete=models.DO_NOTHING, related_name='medicine')
     supplier = models.ForeignKey('Pharmacy', on_delete=models.DO_NOTHING, related_name='medicine_supplier')
-    unit_price = models.PositiveIntegerField()
-    quantity = models.PositiveIntegerField()
 
     class Meta:
         db_table = 'hospital_inventory'
@@ -161,3 +158,24 @@ class Pharmacy(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class MedicineInStock(models.Model):
+    inventory = models.ForeignKey(HospitalInventory, on_delete=models.DO_NOTHING)
+    medicine = models.OneToOneField(Medicine, on_delete=models.CASCADE)
+    unit_price = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField()
+
+    class Meta:
+        db_table = 'medicine_in_stock'
+
+    def __str__(self):
+        return '%s in stock' % self.medicine.name.title()
+
+
+# class PrescriptionMedicines(models.Model):
+#     a = models.ForeignKey(Prescription, on_delete=models.DO_NOTHING)
+#     b = models.ForeignKey(Medicine, on_delete=models.DO_NOTHING)
+#
+#     class Meta:
+#         db_table = '_prescription_medicines'

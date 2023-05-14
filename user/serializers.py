@@ -4,7 +4,7 @@ from django.db import transaction
 
 from user import models
 from user import services
-from user import constants
+from core import constants
 
 
 class UserSerializer(serializers.ModelSerializer):

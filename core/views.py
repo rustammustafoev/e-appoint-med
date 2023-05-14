@@ -13,12 +13,24 @@ class AppointmentViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
 
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return serializers.AppointmentSaveSerializer
+
+        return self.serializer_class
+
 
 class ScheduleViewSet(ModelViewSet):
     queryset = models.Schedule.objects.all()
     serializer_class = serializers.ScheduleSerializer
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return serializers.ScheduleSaveSerializer
+
+        return self.serializer_class
 
 
 class PrescriptionViewSet(ModelViewSet):
@@ -27,6 +39,12 @@ class PrescriptionViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
 
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return serializers.PrescriptionSaveSerializer
+
+        return self.serializer_class
+
 
 class MedicalRecordViewSet(ModelViewSet):
     queryset = models.MedicalRecord.objects.all()
@@ -34,12 +52,24 @@ class MedicalRecordViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
 
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return serializers.MedicalRecordSaveSerializer
 
-class PaymentViewSet(ModelViewSet):
-    queryset = models.Payment.objects.all()
-    serializer_class = serializers.PaymentSerializer
+        return self.serializer_class
+
+
+class PaymentHistoryViewSet(ModelViewSet):
+    queryset = models.PaymentHistory.objects.all()
+    serializer_class = serializers.PaymentHistorySerializer
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return serializers.PaymentHistorySaveSerializer
+
+        return self.serializer_class
 
 
 class MedicalTestViewSet(ModelViewSet):
@@ -53,6 +83,12 @@ class NotificationViewSet(ModelViewSet):
     serializer_class = serializers.NotificationSerializer
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return serializers.NotificationSaveSerializer
+
+        return self.serializer_class
 
 
 class MedicineViewSet(ModelViewSet):
