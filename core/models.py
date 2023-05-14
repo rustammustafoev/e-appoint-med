@@ -24,12 +24,18 @@ class PaymentType(models.TextChoices):
     CARD = 'CARD', 'Via Card'
 
 
+class AppointmentStatus(models.IntegerChoices):
+    ACTIVE = 1, 'Active'
+    CANCELLED = 0, 'Cancelled'
+
+
 class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     scheduled_at = models.ForeignKey('Schedule', on_delete=models.DO_NOTHING)
+    status = models.IntegerField(choices=AppointmentStatus.choices, null=True)
 
     class Meta:
         db_table = 'appointment'

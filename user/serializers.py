@@ -8,7 +8,7 @@ from core import constants
 
 
 class UserSerializer(serializers.ModelSerializer):
-    last_logic = serializers.DateTimeField(read_only=True)
+    last_login = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = User
@@ -50,6 +50,21 @@ class HospitalAdminSerializer(serializers.ModelSerializer):
 
 
 class DoctorSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    department = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Doctor
+        fields = '__all__'
+
+    def get_department(self, obj: models.Doctor):
+        return {
+            'id': obj.department.id,
+            'title': obj.department.title,
+        }
+
+
+class DoctorSaveSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
     class Meta:

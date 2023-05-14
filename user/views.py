@@ -19,6 +19,12 @@ class DoctorViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
 
+    def get_serializer_class(self):
+        if self.action in ('create', 'update', 'partial_update'):
+            return serializers.DoctorSaveSerializer
+
+        return self.serializer_class
+
 
 class NurseViewSet(ModelViewSet):
     queryset = models.Nurse.objects.all()

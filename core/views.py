@@ -12,6 +12,7 @@ class AppointmentViewSet(ModelViewSet):
     serializer_class = serializers.AppointmentSerializer
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
+    filterset_class = filters.AppointmentFilterSet
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
