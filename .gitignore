@@ -24,3 +24,4 @@ sql_app.db
 bin/
 lib/
 pyvenv.cfg
+schema.sql

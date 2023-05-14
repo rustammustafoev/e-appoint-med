@@ -1,3 +1,14 @@
 from django.contrib import admin
 
-# Register your models here.
+from core import models
+
+
+@admin.register(models.Appointment)
+class AppointmentModelAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.Schedule)
+class ScheduleModelAdmin(admin.ModelAdmin):
+    pass
+
