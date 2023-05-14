@@ -69,3 +69,17 @@ class PrescriptionFilterSet(FilterSet):
         test_names = value.split(',')
 
         return queryset.objects.filter(tests__title__in=test_names)
+
+
+class PaymentHistoryFilterSet(FilterSet):
+    ordering = filters.OrderingFilter(fields=[
+        'id', 'status', 'payment_type',
+    ])
+    patient_name = filters.CharFilter(field_name='patient__name', lookup_expr='icontains')
+    patient_email = filters.CharFilter(field_name='patient__email', lookup_expr='icontains')
+
+    class Meta:
+        model = models.PaymentHistory
+        fields = [
+            'status', 'patient_name', 'patient_email', 'payment_type',
+        ]

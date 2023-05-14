@@ -102,7 +102,7 @@ class PaymentHistory(models.Model):
 
 class MedicalTest(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = 'medical_test'

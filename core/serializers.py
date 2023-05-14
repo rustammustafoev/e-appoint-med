@@ -214,7 +214,8 @@ class PaymentHistorySerializer(serializers.ModelSerializer):
     def get_patient(self, obj: models.Prescription):
         return {
             'id': obj.patient.id,
-            'name': obj.patient.name
+            'name': obj.patient.name,
+            'email': obj.patient.email,
         }
 
 

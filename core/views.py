@@ -67,6 +67,7 @@ class PaymentHistoryViewSet(ModelViewSet):
     serializer_class = serializers.PaymentHistorySerializer
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
+    filterset_class = filters.PaymentHistoryFilterSet
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
