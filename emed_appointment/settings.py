@@ -44,14 +44,16 @@ INSTALLED_APPS = [
     # Third-party libraries
     'rest_framework',
     'drf_yasg',
-    
+    'corsheaders',
+
     # Project apps
     'core',
     'user',
-    'authentication'
+    'authentication',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -231,3 +233,31 @@ SWAGGER_SETTINGS = {
     'DOC_EXPANSION': False,
     'DEFAULT_MODEL_DEPTH': -1
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = (
+    'GET',
+    'OPTIONS',
+    'POST',
+    'PUT',
+    'DELETE',
+    'PATCH'
+)
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'x-session-id',
+    'x-accept-language',
+    'x-rid',
+    'x-origin-from',
+    'x-referer',
+    'x-forwarded-for'
+)

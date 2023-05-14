@@ -64,7 +64,7 @@ class Prescription(models.Model):
     medicines = models.ManyToManyField('Medicine', related_name='medicines')
     tests = models.ManyToManyField('MedicalTest', related_name='tests')
     created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
     medical_record = models.ForeignKey('MedicalRecord', on_delete=models.DO_NOTHING, related_name='medical_record')
     comments = models.TextField()
 

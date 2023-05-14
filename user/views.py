@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from user import serializers
 from user import models
+from user import filters
 
 
 class HospitalAdminViewSet(ModelViewSet):
@@ -37,6 +38,7 @@ class PatientViewSet(ModelViewSet):
     queryset = models.Patient.objects.all()
     serializer_class = serializers.PatientSerializer
     filter_backends = (DjangoFilterBackend,)
+    filterset_class = filters.PatientFilterSet
     # permission_classes = (IsAuthenticated,)
 
 

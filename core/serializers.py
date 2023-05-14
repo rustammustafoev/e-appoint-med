@@ -29,7 +29,9 @@ class AppointmentSerializer(serializers.ModelSerializer):
     def get_patient(self, obj: models.Appointment):
         return {
             'id': obj.patient.id,
-            'name': obj.patient.name
+            'name': obj.patient.name,
+            'email': obj.patient.email,
+            'phone_number': obj.patient.phone,
         }
 
     def get_scheduled_at(self, obj: models.Appointment):

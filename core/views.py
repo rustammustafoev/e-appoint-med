@@ -26,6 +26,7 @@ class ScheduleViewSet(ModelViewSet):
     serializer_class = serializers.ScheduleSerializer
     filter_backends = (DjangoFilterBackend,)
     # permission_classes = (IsAuthenticated,)
+    filterset_class = filters.ScheduleFilterSet
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -38,6 +39,7 @@ class PrescriptionViewSet(ModelViewSet):
     queryset = models.Prescription.objects.all()
     serializer_class = serializers.PrescriptionSerializer
     filter_backends = (DjangoFilterBackend,)
+    filterset_class = filters.PrescriptionFilterSet
     # permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
