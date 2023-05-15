@@ -99,7 +99,7 @@ class MedicineViewSet(ModelViewSet):
     queryset = models.Medicine.objects.all()
     serializer_class = serializers.MedicineSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
