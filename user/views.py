@@ -18,7 +18,7 @@ class DoctorViewSet(ModelViewSet):
     queryset = models.Doctor.objects.all()
     serializer_class = serializers.DoctorSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
         if self.action in ('create', 'update', 'partial_update'):
@@ -31,7 +31,7 @@ class NurseViewSet(ModelViewSet):
     queryset = models.Nurse.objects.all()
     serializer_class = serializers.NurseSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class PatientViewSet(ModelViewSet):
@@ -39,11 +39,11 @@ class PatientViewSet(ModelViewSet):
     serializer_class = serializers.PatientSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = filters.PatientFilterSet
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class DepartmentViewSet(ModelViewSet):
     queryset = models.Department.objects.all()
     serializer_class = serializers.DepartmentSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)

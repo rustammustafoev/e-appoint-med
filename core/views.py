@@ -11,7 +11,7 @@ class AppointmentViewSet(ModelViewSet):
     queryset = models.Appointment.objects.all()
     serializer_class = serializers.AppointmentSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     filterset_class = filters.AppointmentFilterSet
 
     def get_serializer_class(self):
@@ -25,7 +25,7 @@ class ScheduleViewSet(ModelViewSet):
     queryset = models.Schedule.objects.all()
     serializer_class = serializers.ScheduleSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     filterset_class = filters.ScheduleFilterSet
 
     def get_serializer_class(self):
@@ -40,7 +40,7 @@ class PrescriptionViewSet(ModelViewSet):
     serializer_class = serializers.PrescriptionSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = filters.PrescriptionFilterSet
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -53,7 +53,7 @@ class MedicalRecordViewSet(ModelViewSet):
     queryset = models.MedicalRecord.objects.all()
     serializer_class = serializers.MedicalRecordSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -66,7 +66,7 @@ class PaymentHistoryViewSet(ModelViewSet):
     queryset = models.PaymentHistory.objects.all()
     serializer_class = serializers.PaymentHistorySerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     filterset_class = filters.PaymentHistoryFilterSet
 
     def get_serializer_class(self):
@@ -79,14 +79,14 @@ class PaymentHistoryViewSet(ModelViewSet):
 class MedicalTestViewSet(ModelViewSet):
     queryset = models.MedicalTest.objects.all()
     serializer_class = serializers.MedicalTestSerializer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class NotificationViewSet(ModelViewSet):
     queryset = models.Notification.objects.all()
     serializer_class = serializers.NotificationSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -112,18 +112,18 @@ class MedicineGroupViewSet(ModelViewSet):
     queryset = models.MedicineGroup.objects.all()
     serializer_class = serializers.MedicineGroupSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class HospitalInventoryViewSet(ModelViewSet):
     queryset = models.HospitalInventory.objects.all()
     serializer_class = serializers.HospitalInventorySerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class PharmacyViewSet(ModelViewSet):
     queryset = models.Pharmacy.objects.all()
     serializer_class = serializers.PharmacySerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
