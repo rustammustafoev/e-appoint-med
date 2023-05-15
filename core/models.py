@@ -35,6 +35,7 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     scheduled_at = models.ForeignKey('Schedule', on_delete=models.DO_NOTHING)
+    appointment_time = models.DateTimeField(null=True)
     status = models.IntegerField(choices=AppointmentStatus.choices, null=True)
 
     class Meta:

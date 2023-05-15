@@ -8,6 +8,7 @@ class AppointmentFilterSet(FilterSet):
     ordering = filters.OrderingFilter(fields=[
         'id',
         'status',
+        'appointment_time',
     ])
     patient_name = filters.CharFilter(field_name='patient__name', lookup_expr='icontains')
 
