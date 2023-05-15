@@ -24,6 +24,7 @@ class Doctor(models.Model):
 
     class Meta:
         db_table = 'doctor'
+        managed = False
 
     def __str__(self):
         return self.user.get_full_name()
@@ -38,6 +39,7 @@ class Nurse(models.Model):
 
     class Meta:
         db_table = 'nurse'
+        managed = False
 
     def __str__(self):
         return self.name
@@ -55,6 +57,7 @@ class Patient(models.Model):
 
     class Meta:
         db_table = 'patient'
+        managed = False
 
     def __str__(self):
         return self.name
@@ -65,6 +68,7 @@ class Department(models.Model):
 
     class Meta:
         db_table = 'hospital_department'
+        managed = False
 
     @property
     def total_employee_amount(self):

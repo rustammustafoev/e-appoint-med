@@ -40,6 +40,7 @@ class Appointment(models.Model):
 
     class Meta:
         db_table = 'appointment'
+        managed = False
 
     def __str__(self):
         return 'Doctor %s -> %s' % (self.doctor.user.get_full_name(), self.patient.name)
@@ -54,6 +55,7 @@ class Schedule(models.Model):
 
     class Meta:
         db_table = 'schedule'
+        managed = False
 
     def __str__(self):
         return "%s's schedule on %s" % (self.doctor.user.get_full_name(), self.day)
@@ -71,6 +73,7 @@ class Prescription(models.Model):
 
     class Meta:
         db_table = 'prescription'
+        managed = False
 
     def __str__(self):
         return 'Prescription for %s' % self.patient.name
@@ -87,6 +90,9 @@ class MedicalRecord(models.Model):
     def __str__(self):
         return 'Medical record of %s' % self.patient.name
 
+    class Meta:
+        managed = False
+
 
 class PaymentHistory(models.Model):
     payment_type = models.CharField(max_length=4, choices=PaymentType.choices, default=PaymentType.CASH.value)
@@ -99,6 +105,7 @@ class PaymentHistory(models.Model):
 
     class Meta:
         db_table = 'payment_history'
+        managed = False
 
 
 class MedicalTest(models.Model):
@@ -107,6 +114,7 @@ class MedicalTest(models.Model):
 
     class Meta:
         db_table = 'medical_test'
+        managed = False
 
     def __str__(self):
         return self.title
@@ -120,6 +128,7 @@ class Notification(models.Model):
 
     class Meta:
         db_table = 'notification'
+        managed = False
 
     def __str__(self):
         return 'Notification to %s' % self.patient.name
@@ -131,6 +140,7 @@ class Medicine(models.Model):
 
     class Meta:
         db_table = 'medicine'
+        managed = False
 
     def __str__(self):
         return self.name
@@ -141,6 +151,7 @@ class MedicineGroup(models.Model):
 
     class Meta:
         db_table = 'medicine_group'
+        managed = False
 
     def __str__(self):
         return self.title
@@ -152,6 +163,7 @@ class HospitalInventory(models.Model):
 
     class Meta:
         db_table = 'hospital_inventory'
+        managed = False
 
     def __str__(self):
         return self.title
@@ -162,6 +174,7 @@ class Pharmacy(models.Model):
 
     class Meta:
         db_table = 'pharmacy'
+        managed = False
 
     def __str__(self):
         return self.name
@@ -175,14 +188,7 @@ class MedicineInStock(models.Model):
 
     class Meta:
         db_table = 'medicine_in_stock'
+        managed = False
 
     def __str__(self):
         return '%s in stock' % self.medicine.name.title()
-
-
-# class PrescriptionMedicines(models.Model):
-#     a = models.ForeignKey(Prescription, on_delete=models.DO_NOTHING)
-#     b = models.ForeignKey(Medicine, on_delete=models.DO_NOTHING)
-#
-#     class Meta:
-#         db_table = '_prescription_medicines'
