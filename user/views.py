@@ -11,7 +11,7 @@ class HospitalAdminViewSet(ModelViewSet):
     queryset = models.HospitalAdmin.objects.all()
     serializer_class = serializers.HospitalAdminSerializer
     filter_backends = (DjangoFilterBackend,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class DoctorViewSet(ModelViewSet):

@@ -1,10 +1,14 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from django.shortcuts import get_object_or_404
 
 from core import serializers
 from core import models
 from core import filters
+from user.models import Doctor
 
 
 class AppointmentViewSet(ModelViewSet):
@@ -127,3 +131,16 @@ class PharmacyViewSet(ModelViewSet):
     serializer_class = serializers.PharmacySerializer
     filter_backends = (DjangoFilterBackend,)
     permission_classes = (IsAuthenticated,)
+
+
+class DashboardView(GenericAPIView):
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_superuser:
+            serializer = serializers.AdminDashboardSerializer(context={'admin': user})
+        else:
+            user = get_object_or_404(Doctor, user=user.id, status=True)
+            serializer = serializers.DoctorDashboardSerializer(request.data, context={'doctor': user})
+
+        return Response(serializer.data)

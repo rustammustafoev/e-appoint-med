@@ -29,6 +29,11 @@ class AppointmentStatus(models.IntegerChoices):
     CANCELLED = 0, 'Cancelled'
 
 
+class NotificationType(models.TextChoices):
+    EMAIL = 'EMAIL', 'Email'
+    SMS = 'SMS', 'SMS'
+
+
 class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)
@@ -124,6 +129,7 @@ class Notification(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)
     message_content = models.TextField()
+    notification_type = models.CharField(max_length=6, choices=NotificationType.choices, default=NotificationType.EMAIL.value)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

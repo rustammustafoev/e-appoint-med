@@ -21,6 +21,7 @@ class Doctor(models.Model):
     phone = models.CharField(max_length=50)
     department = models.ForeignKey('Department', on_delete=models.DO_NOTHING)
     gender = models.CharField(max_length=1, choices=Gender.choices)
+    status = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'doctor'

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils import timezone
 
 from core import models
 from core import constants
@@ -263,3 +264,47 @@ class PharmacySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Pharmacy
         fields = '__all__'
+
+
+class DoctorDashboardSerializer(serializers.Serializer):
+    dashboard_info = serializers.SerializerMethodField()
+
+    def get_dashboard_info(self, obj):
+        doctor_id = self.context.get('doctor', 0)
+        appointment = models.Appointment.objects.filter(doctor_id=doctor_id)
+        prescription = models.Prescription.objects.filter(doctor_id=doctor_id)
+        notification = models.Notification.objects.filter(doctor_id=doctor_id)
+
+        return {
+            'total_patient': appointment.count(),
+            'patient_for_today': appointment.filter(appointment_time__date=timezone.now().date()).count(),
+            'appointment_for_today': appointment.filter(appointment_time__date=timezone.now().date()).count(),
+            'new_appointments': appointment.filter(status=1).count(),
+            'total_appointments': appointment.count(),
+            'total_prescription': prescription.count(),
+            'prescription_for_today': prescription.filter(created_at__date=timezone.now().date()).count(),
+            'total_notifications': notification.count(),
+            'total_sms_sent': notification.filter(notification_type='SMS').count(),
+            'sms_sent_today': (
+                notification.filter(notification_type='SMS', created_at__date=timezone.now().date()).count()
+            ),
+            'total_emails_sent': notification.filter(notification_type='EMAIL').count(),
+            'emails_sent_today': (
+                notification.filter(notification_type='EMAIL', created_at__date=timezone.now().date()).count()
+            ),
+        }
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+
+class AdminDashboardSerializer(serializers.Serializer):
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass

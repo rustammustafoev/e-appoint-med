@@ -20,4 +20,5 @@ router.register('pharmacy', views.PharmacyViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('dashboard/', views.DashboardView.as_view(), name='dashboard-view'),
 ]
