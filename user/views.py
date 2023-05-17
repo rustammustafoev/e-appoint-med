@@ -12,6 +12,7 @@ class HospitalAdminViewSet(ModelViewSet):
     serializer_class = serializers.HospitalAdminSerializer
     filter_backends = (DjangoFilterBackend,)
     permission_classes = (IsAuthenticated,)
+    lookup_field = 'user__id'
 
 
 class DoctorViewSet(ModelViewSet):
@@ -19,6 +20,7 @@ class DoctorViewSet(ModelViewSet):
     serializer_class = serializers.DoctorSerializer
     filter_backends = (DjangoFilterBackend,)
     permission_classes = (IsAuthenticated,)
+    lookup_field = 'user__id'
 
     def get_serializer_class(self):
         if self.action in ('create', 'update', 'partial_update'):

@@ -9,10 +9,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def create(self, validated_data):
         pass
 
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        token['is_admin'] = user.is_superuser
-        token['username'] = user.username
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['is_superuser'] = self.user.is_superuser
+        data['username'] = self.user.username
+        data['user_id'] = self.user.id
 
-        return token
+        return data
