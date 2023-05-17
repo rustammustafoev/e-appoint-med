@@ -8,6 +8,11 @@ class Gender(models.TextChoices):
     OTHER = 'O', 'Other'
 
 
+class PatientStatus(models.TextChoices):
+    IN = 'IN', 'Under treatment'
+    OUT = 'OUT', 'Completed treatment'
+
+
 class HospitalAdmin(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -55,6 +60,7 @@ class Patient(models.Model):
     passport_id = models.CharField(max_length=7, help_text='Passport ID is consist of 7 characters')
     address = models.CharField(max_length=100)
     birth_date = models.CharField(max_length=20, help_text='DD-MM-YYYY')
+    status = models.CharField(max_length=3, choices=PatientStatus.choices, default=PatientStatus.IN.value)
 
     class Meta:
         db_table = 'patient'

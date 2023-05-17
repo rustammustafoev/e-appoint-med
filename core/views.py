@@ -138,7 +138,7 @@ class DashboardView(GenericAPIView):
     def get(self, request, *args, **kwargs):
         user = request.user
         if user.is_superuser:
-            serializer = serializers.AdminDashboardSerializer(context={'admin': user})
+            serializer = serializers.AdminDashboardSerializer(request.data)
         else:
             user = get_object_or_404(Doctor, user=user.id, status=True)
             serializer = serializers.DoctorDashboardSerializer(request.data, context={'doctor': user})

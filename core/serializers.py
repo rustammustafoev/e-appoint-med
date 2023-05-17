@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from core import models
 from core import constants
+from user.models import Doctor
 
 
 class AppointmentSaveSerializer(serializers.ModelSerializer):
@@ -275,7 +276,7 @@ class DoctorDashboardSerializer(serializers.Serializer):
         prescription = models.Prescription.objects.filter(doctor_id=doctor_id)
         notification = models.Notification.objects.filter(doctor_id=doctor_id)
 
-        return {
+        payload = {
             'total_patient': appointment.count(),
             'patient_for_today': appointment.filter(appointment_time__date=timezone.now().date()).count(),
             'appointment_for_today': appointment.filter(appointment_time__date=timezone.now().date()).count(),
@@ -294,6 +295,8 @@ class DoctorDashboardSerializer(serializers.Serializer):
             ),
         }
 
+        return payload
+
     def create(self, validated_data):
         pass
 
@@ -302,6 +305,34 @@ class DoctorDashboardSerializer(serializers.Serializer):
 
 
 class AdminDashboardSerializer(serializers.Serializer):
+    dashboard_info = serializers.SerializerMethodField()
+
+    def get_dashboard_info(self, obj):
+        doctors_count = Doctor.objects.filter(status=True).count()
+        patients_count = models.Patient.objects.filter(status='IN').count()
+        appointments_count = models.Appointment.objects.filter(status=1).count()
+        revenue = 5999
+        inventory_status = models.HospitalInventory.objects.get(title='Hospital Stock')
+        available_medicines = models.Medicine.objects.filter(is_available=True).count()
+        medicines_shortage = models.Medicine.objects.filter(is_available=False).count()
+        medicine_groups = models.MedicineGroup.objects.all().count()
+        suppliers = models.Pharmacy.objects.all().count()
+        frequently_bought = models.MedicineInStock.objects.all().count()
+
+        payload = {
+            'doctors_working': doctors_count,
+            'patients_treated': patients_count,
+            'appointments': appointments_count,
+            'revenue': revenue,
+            'inventory_status': inventory_status.status,
+            'available_medicine': available_medicines,
+            'medicines_shortage': medicines_shortage,
+            'medicine_groups': medicine_groups,
+            'medicine_suppliers': suppliers,
+            'frequently_bought': frequently_bought
+        }
+
+        return payload
 
     def create(self, validated_data):
         pass

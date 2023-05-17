@@ -33,6 +33,10 @@ class NotificationType(models.TextChoices):
     EMAIL = 'EMAIL', 'Email'
     SMS = 'SMS', 'SMS'
 
+class InventoryStatus(models.IntegerChoices):
+    GOOD = 1, 'Good'
+    BAD = 0, 'Needs to be refilled'
+
 
 class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
@@ -143,10 +147,11 @@ class Notification(models.Model):
 class Medicine(models.Model):
     name = models.CharField(max_length=100)
     group = models.ForeignKey('MedicineGroup', on_delete=models.DO_NOTHING)
+    is_available = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'medicine'
-        managed = False
+        managed = True
 
     def __str__(self):
         return self.name
@@ -166,10 +171,11 @@ class MedicineGroup(models.Model):
 class HospitalInventory(models.Model):
     title = models.CharField(max_length=100)
     supplier = models.ForeignKey('Pharmacy', on_delete=models.DO_NOTHING, related_name='medicine_supplier')
+    status = models.PositiveSmallIntegerField(choices=InventoryStatus.choices, default=InventoryStatus.GOOD.value)
 
     class Meta:
         db_table = 'hospital_inventory'
-        managed = False
+        managed = True
 
     def __str__(self):
         return self.title
