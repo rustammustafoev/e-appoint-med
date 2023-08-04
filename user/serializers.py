@@ -22,7 +22,7 @@ class HospitalAdminSerializer(serializers.ModelSerializer):
         model = models.HospitalAdmin
         fields = '__all__'
 
-    @transaction.atomic()
+    @transaction.atomic
     def create(self, validated_data):
         user = validated_data.get('user')
 
@@ -35,7 +35,7 @@ class HospitalAdminSerializer(serializers.ModelSerializer):
 
         return hospital_admin
 
-    @transaction.atomic()
+    @transaction.atomic
     def update(self, instance, validated_data):
         user = validated_data.get('user')
         if user:
@@ -71,7 +71,7 @@ class DoctorSaveSerializer(serializers.ModelSerializer):
         model = models.Doctor
         fields = '__all__'
 
-    @transaction.atomic()
+    @transaction.atomic
     def create(self, validated_data):
         user = validated_data.get('user')
 
@@ -84,7 +84,7 @@ class DoctorSaveSerializer(serializers.ModelSerializer):
 
         return doctor
 
-    @transaction.atomic()
+    @transaction.atomic
     def update(self, instance, validated_data):
         user = validated_data.get('user')
         if user:

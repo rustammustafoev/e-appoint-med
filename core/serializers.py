@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from django.utils import timezone
+from django.db import transaction
 
 import core.models
 from core import models
 from core import constants
-from user.models import Doctor, Gender
+from user.models import Doctor
 
 
 class AppointmentSaveSerializer(serializers.ModelSerializer):
@@ -133,6 +134,7 @@ class PrescriptionSaveSerializer(serializers.ModelSerializer):
         model = models.Prescription
         fields = '__all__'
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         medicines = validated_data.pop('medicines', [])
         tests = validated_data.pop('tests', [])
@@ -145,6 +147,7 @@ class PrescriptionSaveSerializer(serializers.ModelSerializer):
 
         return prescription
 
+    @transaction.atomic
     def create(self, validated_data):
         medicines = validated_data.pop('medicines', [])
         tests = validated_data.pop('tests', [])
