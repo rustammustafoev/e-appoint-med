@@ -33,6 +33,7 @@ class NotificationType(models.TextChoices):
     EMAIL = 'EMAIL', 'Email'
     SMS = 'SMS', 'SMS'
 
+
 class InventoryStatus(models.IntegerChoices):
     GOOD = 1, 'Good'
     BAD = 0, 'Needs to be refilled'
@@ -43,7 +44,7 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-    scheduled_at = models.ForeignKey('Schedule', on_delete=models.DO_NOTHING)
+    scheduled_at = models.ForeignKey('Schedule', on_delete=models.DO_NOTHING, default=1)
     appointment_time = models.DateTimeField(null=True)
     status = models.IntegerField(choices=AppointmentStatus.choices, null=True)
 
@@ -61,6 +62,7 @@ class Schedule(models.Model):
     from_time = models.TimeField()
     to_time = models.TimeField()
     time_per_patient = models.PositiveSmallIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
         db_table = 'schedule'
@@ -151,7 +153,7 @@ class Medicine(models.Model):
 
     class Meta:
         db_table = 'medicine'
-        managed = True
+        managed = False
 
     def __str__(self):
         return self.name
@@ -175,7 +177,7 @@ class HospitalInventory(models.Model):
 
     class Meta:
         db_table = 'hospital_inventory'
-        managed = True
+        managed = False
 
     def __str__(self):
         return self.title

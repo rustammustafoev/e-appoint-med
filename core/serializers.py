@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from django.utils import timezone
 
+import core.models
 from core import models
 from core import constants
-from user.models import Doctor
+from user.models import Doctor, Gender
 
 
 class AppointmentSaveSerializer(serializers.ModelSerializer):
@@ -187,10 +188,16 @@ class PrescriptionSerializer(serializers.ModelSerializer):
         }
 
     def get_patient(self, obj: models.Prescription):
-        return {
+
+        payload = {
             'id': obj.patient.id,
-            'name': obj.patient.name
+            'name': obj.patient.name,
+            'phone_number': obj.patient.phone,
+            'gender':  obj.patient.gender,
+            'email': obj.patient.email,
         }
+
+        return payload
 
     def create(self, validated_data):
         pass

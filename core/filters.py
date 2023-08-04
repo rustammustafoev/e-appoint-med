@@ -22,7 +22,7 @@ class AppointmentFilterSet(FilterSet):
 
 class ScheduleFilterSet(FilterSet):
     ordering = filters.OrderingFilter(fields=[
-        'id', 'from_time', 'to_time'
+        'id', 'from_time', 'to_time', 'created_at'
     ])
     doctor_name = filters.CharFilter(method='filter_by_doctor_full_name', lookup_expr='icontains')
 

@@ -25,7 +25,6 @@ schema_view = get_schema_view(
         title='E-Med Appointment',
         default_version='v1',
         description="",
-        terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email=""),
         license=openapi.License(name="License"),
     ),

@@ -5,6 +5,6 @@ from authentication import views
 
 
 urlpatterns = [
-    path('auth/token/', views.CustomTokenObtainPairView.as_view(), name='access-token'),
-    path('auth/token/refresh/', TokenRefreshView.as_view(), name='refresh-token'),
+    path('token/', views.CustomTokenObtainPairView.as_view(), name='access-token'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='refresh-token'),
 ]
