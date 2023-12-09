@@ -186,11 +186,6 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False
         },
-        'ax_core': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False
-        }
     },
 }
 
